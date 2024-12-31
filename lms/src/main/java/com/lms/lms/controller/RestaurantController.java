@@ -1,5 +1,6 @@
 package com.lms.lms.controller;
 
+import com.lms.lms.model.Restaurant;
 import com.lms.lms.request.AddRestaurantRequest;
 import com.lms.lms.request.Duration;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
@@ -21,6 +22,11 @@ public class RestaurantController {
     @PostMapping("/add")
     public boolean addRestaurant(@RequestBody AddRestaurantRequest request) {
         return restaurantService.addRestaurant(request);
+    }
+
+    @GetMapping("/fetch/{kamId}")
+    public List<Restaurant> getAllRestaurants(@PathVariable("kamId") String kamId) {
+        return restaurantService.getAllRestaurants(kamId);
     }
 
     @GetMapping("/contacts/{restId}")

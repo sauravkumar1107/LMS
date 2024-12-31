@@ -7,6 +7,8 @@ import com.lms.lms.transformer.RestaurantTransformer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RestaurantService {
@@ -15,5 +17,9 @@ public class RestaurantService {
         Restaurant restaurant = RestaurantTransformer.addRestaurantRequestToRestaurant(request);
         repository.save(restaurant);
         return true;
+    }
+
+    public List<Restaurant> getAllRestaurants(String kamId) {
+        return repository.findByKamId();
     }
 }
