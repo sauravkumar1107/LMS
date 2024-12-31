@@ -1,6 +1,6 @@
 package com.lms.lms.service;
 
-import com.lms.lms.entity.Restaurant;
+import com.lms.lms.model.Restaurant;
 import com.lms.lms.repository.RestaurantRepository;
 import com.lms.lms.request.AddRestaurantRequest;
 import com.lms.lms.transformer.RestaurantTransformer;
@@ -13,7 +13,7 @@ public class RestaurantService {
     private final RestaurantRepository repository;
     public boolean addRestaurant(AddRestaurantRequest request) {
         Restaurant restaurant = RestaurantTransformer.addRestaurantRequestToRestaurant(request);
-//        repository
+        repository.save(restaurant);
         return true;
     }
 }

@@ -1,4 +1,4 @@
-package com.lms.lms.entity;
+package com.lms.lms.model;
 
 public enum CallFrequency {
     DAILY,

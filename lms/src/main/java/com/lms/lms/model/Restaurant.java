@@ -1,5 +1,9 @@
-package com.lms.lms.entity;
+package com.lms.lms.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +13,17 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
+@Entity
+@Table(name = "restaurants")
 public class Restaurant {
+    @Id
     private String id;
+    @Column(nullable = false)
     private String kamId;
-    private RestaurantMetadata metadata;
+    @Column(nullable = false)
+    private String name;
+    private String address;
+    private Integer starsRating;
     private Status status;
     private List<String> interactions;
     private List<String> orders;
