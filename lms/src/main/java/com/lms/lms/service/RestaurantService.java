@@ -20,6 +20,6 @@ public class RestaurantService {
     }
 
     public List<Restaurant> getAllRestaurants(String kamId) {
-        return repository.findByKamId();
+        return repository.findByKamId(kamId);
     }
 }
