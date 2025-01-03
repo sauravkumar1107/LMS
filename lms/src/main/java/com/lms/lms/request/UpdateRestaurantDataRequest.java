@@ -8,4 +8,10 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class UpdateRestaurantDataRequest {
+    private String id;
+    private String kamId;
+    private String name;
+    private String address;
+    private Integer starsRating;
+    private String frequency;
 }

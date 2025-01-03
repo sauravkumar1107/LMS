@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Data
@@ -27,8 +29,17 @@ public class Restaurant {
     private String address;
     private Integer starsRating;
     private Status status;
-    private List<String> interactions;
-    private List<String> orders;
-    private String lastInteractionId;
+    private String recentOrderId;
     private CallFrequency frequency;
+    private String lastCallId;
+    private Instant lastCallTime;
+
+    public Instant nextScheduledCall() {
+        return switch (this.frequency) {
+            case DAILY -> lastCallTime.plus(1, ChronoUnit.DAYS);
+            case WEEKLY -> lastCallTime.plus(7, ChronoUnit.DAYS);
+            case MONTHLY -> lastCallTime.plus(30, ChronoUnit.DAYS);
+            case ANNUAL -> lastCallTime.plus(365, ChronoUnit.DAYS);
+        };
+    }
 }

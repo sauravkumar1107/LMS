@@ -1,5 +1,6 @@
 package com.lms.lms.request;
 
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,4 +9,8 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class MakeCallRequest {
+    private String restId;
+    private String kamId;
+    private String contactId;
+    private String orderId;
 }

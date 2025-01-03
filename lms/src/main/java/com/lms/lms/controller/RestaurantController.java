@@ -1,9 +1,12 @@
 package com.lms.lms.controller;
 
+import com.lms.lms.model.Contact;
+import com.lms.lms.model.Order;
 import com.lms.lms.model.Restaurant;
 import com.lms.lms.request.AddRestaurantRequest;
 import com.lms.lms.request.Duration;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
+import com.lms.lms.service.OrderService;
 import com.lms.lms.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequestMapping("restaurant")
 public class RestaurantController {
     private final RestaurantService restaurantService;
+    private final OrderService orderService;
 
     @PostMapping("/add")
     public boolean addRestaurant(@RequestBody AddRestaurantRequest request) {
@@ -29,14 +33,14 @@ public class RestaurantController {
         return restaurantService.getAllRestaurants(kamId);
     }
 
-    @GetMapping("/contacts/{restId}")
-    public String getContacts(@PathVariable("restId") String restId) {
-        return "testphone";
+    @GetMapping("/{restId}/contacts")
+    public List<Contact> getContacts(@PathVariable("restId") String restId) {
+        return restaurantService.getRestaurantContacts(restId);
     }
 
     @PostMapping("/update")
-    public void updateRestaurantData(@RequestBody UpdateRestaurantDataRequest request) {
-
+    public boolean updateRestaurantData(@RequestBody UpdateRestaurantDataRequest request) {
+        return restaurantService.updateRestaurant(request);
     }
 
     @GetMapping("/performance/{kamId}/{count}/{order}")
@@ -47,8 +51,8 @@ public class RestaurantController {
     }
 
     @GetMapping("/orders/{restId}/{duration}")
-    public List<String> getAllRestaurantOrders(@PathVariable("restId") String restId,
-                                               @PathVariable("duration") Duration duration) {
-        return null;
+    public List<Order> getAllRestaurantOrders(@PathVariable("restId") String restId,
+                                              @PathVariable("duration") Duration duration) {
+        return orderService.findAllOrders(restId, duration);
     }
 }
