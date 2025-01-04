@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Slf4j
@@ -53,7 +54,6 @@ public class RestaurantService {
     }
 
     public List<Order> findAllOrders(String restId, Duration duration) {
-        List<Order> orders = orderRepository.findByRestId(restId);
         int days = switch (duration) {
             case DAY -> 1;
             case WEEK -> 7;
@@ -62,12 +62,14 @@ public class RestaurantService {
             default -> throw new UnsupportedOperationException("Duration is not supported");
         };
 
-        orders.removeIf(order -> {
-            if (java.time.Duration.between(order.getOrderDate(), Instant.now()).toDays() <= days) {
-                return false;
-            }
-            return true;
-        });
+        List<Order> orders = orderRepository.findAllByRestaurantIdAndOrderDateAfter(restId, Instant.now().minus(days, ChronoUnit.DAYS));
+
+//        orders.removeIf(order -> {
+//            if (java.time.Duration.between(order.getOrderDate(), Instant.now()).toDays() <= days) {
+//                return false;
+//            }
+//            return true;
+//        });
 
         return orders;
     }
