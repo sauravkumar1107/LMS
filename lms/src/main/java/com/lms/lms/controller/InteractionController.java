@@ -1,17 +1,15 @@
 package com.lms.lms.controller;
 
 import com.lms.lms.model.Call;
-import com.lms.lms.model.Order;
 import com.lms.lms.model.Restaurant;
 import com.lms.lms.request.MakeCallRequest;
-import com.lms.lms.service.CallerService;
+import com.lms.lms.service.InteractionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +19,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-@RequestMapping("call")
-public class CallerController {
-    private final CallerService callerService;
+@RequestMapping("api/v1/interaction")
+public class InteractionController {
+    private final InteractionService interactionService;
 
     @Operation(
             description = "Make a call to a contact of a restaurant lead"
@@ -33,9 +31,9 @@ public class CallerController {
             description = "Call made successfully",
             content = @Content(schema = @Schema(implementation = Call.class))
     )
-    @PostMapping("/make")
+    @PostMapping()
     public ResponseEntity<Call> makeCall(@RequestBody MakeCallRequest request) {
-        return ResponseEntity.ok(callerService.makeCall(request));
+        return ResponseEntity.ok(interactionService.makeCall(request));
     }
 
     @Operation(
@@ -45,8 +43,8 @@ public class CallerController {
             responseCode = "200",
             description = "Scheduled calls fetched"
     )
-    @GetMapping("/findScheduledCalls/{kamId}")
-    public List<Restaurant> findAllCalls(@PathVariable("kamId") String kamId) {
-        return callerService.getTodaysScheduledCalls(kamId);
+    @GetMapping("/kam/{id}")
+    public List<Restaurant> findAllCalls(@PathVariable("id") String kamId) {
+        return interactionService.getTodaysScheduledCalls(kamId);
     }
 }

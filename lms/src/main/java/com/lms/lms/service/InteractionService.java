@@ -21,7 +21,7 @@ import static java.lang.Math.abs;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CallerService {
+public class InteractionService {
     private final CallRepository callRepository;
     private final RestaurantRepository restaurantRepository;
     private final ContactRepository contactRepository;

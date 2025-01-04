@@ -1,10 +1,8 @@
 package com.lms.lms.controller;
 
 import com.lms.lms.model.Contact;
-import com.lms.lms.model.Order;
 import com.lms.lms.model.Restaurant;
 import com.lms.lms.request.AddRestaurantRequest;
-import com.lms.lms.request.Period;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
 import com.lms.lms.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-@RequestMapping("restaurant")
+@RequestMapping("api/v1/restaurant")
 @Tag(name = "Restaurant leads", description = "Lead Management APIs")
 public class RestaurantController {
     private final RestaurantService restaurantService;
@@ -36,33 +34,33 @@ public class RestaurantController {
             description = "Restaurant created successfully",
             content = @Content(schema = @Schema(implementation = Restaurant.class))
     )
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<Restaurant> addRestaurant(@RequestBody AddRestaurantRequest request) {
         return ResponseEntity.ok(restaurantService.addRestaurant(request));
     }
 
     @Operation(
-            description = "Fetch all restaurant leads created by a KAM"
+            description = "Get all restaurant leads of a KAM"
     )
     @ApiResponse(
             responseCode = "200",
             description = "Restaurants fetched"
     )
-    @GetMapping("/fetch/{kamId}")
-    public ResponseEntity<List<Restaurant>> getAllRestaurants(@PathVariable("kamId") String kamId) {
+    @GetMapping("/kam/{id}")
+    public ResponseEntity<List<Restaurant>> getAllRestaurants(@PathVariable("id") String kamId) {
         return ResponseEntity.ok(restaurantService.getAllRestaurants(kamId));
     }
 
     @Operation(
-            description = "Fetch all contacts for a restaurant"
+            description = "Get all contacts of a restaurant"
     )
     @ApiResponse(
             responseCode = "200",
             description = "Contacts fetched"
     )
-    @GetMapping("/{restId}/contacts")
-    public ResponseEntity<List<Contact>> getContacts(@PathVariable("restId") String restId) {
-        return ResponseEntity.ok(restaurantService.getRestaurantContacts(restId));
+    @GetMapping("/{id}/contacts")
+    public ResponseEntity<List<Contact>> getContacts(@PathVariable("id") String id) {
+        return ResponseEntity.ok(restaurantService.getRestaurantContacts(id));
     }
 
     @Operation(
@@ -72,8 +70,8 @@ public class RestaurantController {
             responseCode = "200",
             description = "Details updated"
     )
-    @PostMapping("/update")
-    public ResponseEntity<Restaurant> updateRestaurantData(@RequestBody UpdateRestaurantDataRequest request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Restaurant> updateRestaurantData(@PathVariable("id") String id, @RequestBody UpdateRestaurantDataRequest request) {
         return ResponseEntity.ok(restaurantService.updateRestaurant(request));
     }
 
@@ -84,23 +82,10 @@ public class RestaurantController {
             responseCode = "200",
             description = "Details fetched"
     )
-    @GetMapping("/performance/{kamId}/{count}/{order}")
-    public ResponseEntity<List<Restaurant>> getPerformers(@PathVariable("kamId") String kamId,
+    @GetMapping("/performance/kam/{id}/{count}/{order}")
+    public ResponseEntity<List<Restaurant>> getPerformers(@PathVariable("id") String kamId,
                                       @PathVariable("count") int count,
                                       @PathVariable("order") int inc) {
         return ResponseEntity.ok(restaurantService.getPerformers(kamId, count, inc));
-    }
-
-    @Operation(
-            description = "Find all orders of a restaurant in a given period"
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "Orders fetched"
-    )
-    @GetMapping("/orders/{restId}/{period}")
-    public ResponseEntity<List<Order>> getAllRestaurantOrders(@PathVariable("restId") String restId,
-                                              @PathVariable("duration") Period period) {
-        return ResponseEntity.ok(restaurantService.findAllOrders(restId, period));
     }
 }
