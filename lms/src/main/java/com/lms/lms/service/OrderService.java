@@ -23,37 +23,31 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final RestaurantRepository restaurantRepository;
     private final ProductRepository productRepository;
-    public boolean placeOrder(PlaceOrderRequest request) {
-        try {
-            Restaurant restaurant = restaurantRepository.findById(request.getRestId())
-                    .orElseThrow(() -> new RuntimeException("Data not found"));
+    public Order placeOrder(PlaceOrderRequest request) {
+        Restaurant restaurant = restaurantRepository.findById(request.getRestId())
+                .orElseThrow(() -> new RuntimeException("Data not found"));
 
-            List<PurchasedProduct> purchasedProducts = request.getPurchasedProducts().stream().map(pp -> {
-                Product product = productRepository.findById(pp.getProductId())
-                        .orElseThrow(() -> new RuntimeException("Product not found with ID: " + pp.getProductId()));
+        List<PurchasedProduct> purchasedProducts = request.getPurchasedProducts().stream().map(pp -> {
+            Product product = productRepository.findById(pp.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found with ID: " + pp.getProductId()));
 
-                return PurchasedProduct.builder()
-                        .product(product)
-                        .quantity(pp.getQuantity())
-                        .id(UUID.randomUUID().toString())
-                        .build();
-            }).toList();
-
-            Order order = Order.builder()
-                    .kamId(request.getKamId())
-                    .restBuyerId(request.getRestBuyerId())
-                    .restaurant(restaurant)
-                    .totalPrice(request.getTotalPrice())
-                    .orderDate(Instant.now())
+            return PurchasedProduct.builder()
+                    .product(product)
+                    .quantity(pp.getQuantity())
                     .id(UUID.randomUUID().toString())
-                    .purchasedProducts(purchasedProducts)
                     .build();
+        }).toList();
 
-            orderRepository.save(order);
-            return true;
-        } catch (Exception e) {
-            log.error("Encountered error in placeOrder", e);
-            return false;
-        }
+        Order order = Order.builder()
+                .kamId(request.getKamId())
+                .restBuyerId(request.getRestBuyerId())
+                .restaurant(restaurant)
+                .totalPrice(request.getTotalPrice())
+                .orderDate(Instant.now())
+                .id(UUID.randomUUID().toString())
+                .purchasedProducts(purchasedProducts)
+                .build();
+
+        return orderRepository.save(order);
     }
 }

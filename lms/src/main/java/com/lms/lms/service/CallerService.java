@@ -26,40 +26,33 @@ public class CallerService {
     private final RestaurantRepository restaurantRepository;
     private final ContactRepository contactRepository;
     private final OrderRepository orderRepository;
-    public boolean makeCall(MakeCallRequest request) {
-        try {
+    public Call makeCall(MakeCallRequest request) {
+        Restaurant restaurant = restaurantRepository.findById(request.getRestId())
+                .orElseThrow(() -> new RuntimeException("Data not found"));
 
-            Restaurant restaurant = restaurantRepository.findById(request.getRestId())
+        Contact contact = contactRepository.findById(request.getContactId())
+                .orElseThrow(() -> new RuntimeException("Data not found"));
+
+        Call call = Call.builder()
+                .id(UUID.randomUUID().toString())
+                .restaurant(restaurant)
+                .kamId(request.getKamId())
+                .contact(contact)
+                .callTime(restaurant.getLastCallTime())
+                .build();
+
+        if (StringUtils.hasText(request.getOrderId())) {
+            Order order = orderRepository.findById(request.getOrderId())
                     .orElseThrow(() -> new RuntimeException("Data not found"));
-
-            Contact contact = contactRepository.findById(request.getContactId())
-                    .orElseThrow(() -> new RuntimeException("Data not found"));
-
-            Call call = Call.builder()
-                    .id(UUID.randomUUID().toString())
-                    .restaurant(restaurant)
-                    .kamId(request.getKamId())
-                    .contact(contact)
-                    .callTime(restaurant.getLastCallTime())
-                    .build();
-
-            if (StringUtils.hasText(request.getOrderId())) {
-                Order order = orderRepository.findById(request.getOrderId())
-                        .orElseThrow(() -> new RuntimeException("Data not found"));
-                call.setOrder(order);
-                restaurant.setStatus(Status.ORDER_PLACED);
-            } else {
-                restaurant.setStatus(Status.CONTACTED);
-            }
-
-            restaurant.setLastCallTime(Instant.now());
-            restaurantRepository.save(restaurant);
-            callRepository.save(call);
-            return true;
-        } catch (Exception e) {
-            log.error("Encountered error in makeCall", e);
-            return false;
+            call.setOrder(order);
+            restaurant.setStatus(Status.ORDER_PLACED);
+        } else {
+            restaurant.setStatus(Status.CONTACTED);
         }
+
+        restaurant.setLastCallTime(Instant.now());
+        restaurantRepository.save(restaurant);
+        return callRepository.save(call);
     }
 
     public List<Restaurant> getTodaysScheduledCalls(String kamId) {
