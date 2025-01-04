@@ -7,8 +7,10 @@ import com.lms.lms.repository.ContactRepository;
 import com.lms.lms.repository.OrderRepository;
 import com.lms.lms.repository.RestaurantRepository;
 import com.lms.lms.request.AddRestaurantRequest;
+import com.lms.lms.request.ContactRequest;
 import com.lms.lms.request.Period;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
+import com.lms.lms.transformer.ContactTransformer;
 import com.lms.lms.transformer.RestaurantTransformer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,11 @@ public class RestaurantService {
 
     public Restaurant addRestaurant(AddRestaurantRequest request) {
         Restaurant restaurant = RestaurantTransformer.addRestaurantRequestToRestaurant(request);
+        List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), restaurant.getId());
+        for (Contact contact : contacts) {
+            contactRepository.save(contact);
+        }
+
         return restaurantRepository.save(restaurant);
     }
 
@@ -43,6 +50,12 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(request.getId())
                 .orElseThrow(() -> new RuntimeException("Data not found"));
         RestaurantTransformer.updateRestaurantWithRequest(restaurant, request);
+
+        List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), request.getId());
+        for (Contact contact : contacts) {
+            contactRepository.save(contact);
+        }
+
         return restaurantRepository.save(restaurant);
     }
 
