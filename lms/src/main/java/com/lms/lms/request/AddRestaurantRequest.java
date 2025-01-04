@@ -8,7 +8,6 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class AddRestaurantRequest {
-    private String id;
     private String kamId;
     private String name;
     private String address;
