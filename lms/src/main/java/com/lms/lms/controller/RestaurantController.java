@@ -9,7 +9,13 @@ import com.lms.lms.request.UpdateRestaurantDataRequest;
 import com.lms.lms.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 
@@ -18,39 +24,49 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("restaurant")
+@Tag(name = "Restaurant leads", description = "Lead Management APIs")
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
+    @Operation(
+            summary = "Create a new restaurant lead",
+            description = "Creates a new restaurant lead in the system"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Restaurant created successfully",
+            content = @Content(schema = @Schema(implementation = Restaurant.class))
+    )
     @PostMapping("/add")
-    public boolean addRestaurant(@RequestBody AddRestaurantRequest request) {
-        return restaurantService.addRestaurant(request);
+    public ResponseEntity<Restaurant> addRestaurant(@RequestBody AddRestaurantRequest request) {
+        return ResponseEntity.ok(restaurantService.addRestaurant(request));
     }
 
     @GetMapping("/fetch/{kamId}")
-    public List<Restaurant> getAllRestaurants(@PathVariable("kamId") String kamId) {
-        return restaurantService.getAllRestaurants(kamId);
+    public ResponseEntity<List<Restaurant>> getAllRestaurants(@PathVariable("kamId") String kamId) {
+        return ResponseEntity.ok(restaurantService.getAllRestaurants(kamId));
     }
 
     @GetMapping("/{restId}/contacts")
-    public List<Contact> getContacts(@PathVariable("restId") String restId) {
-        return restaurantService.getRestaurantContacts(restId);
+    public ResponseEntity<List<Contact>> getContacts(@PathVariable("restId") String restId) {
+        return ResponseEntity.ok(restaurantService.getRestaurantContacts(restId));
     }
 
     @PostMapping("/update")
-    public boolean updateRestaurantData(@RequestBody UpdateRestaurantDataRequest request) {
-        return restaurantService.updateRestaurant(request);
+    public ResponseEntity<Restaurant> updateRestaurantData(@RequestBody UpdateRestaurantDataRequest request) {
+        return ResponseEntity.ok(restaurantService.updateRestaurant(request));
     }
 
     @GetMapping("/performance/{kamId}/{count}/{order}")
-    public List<Restaurant> getPerformers(@PathVariable("kamId") String kamId,
+    public ResponseEntity<List<Restaurant>> getPerformers(@PathVariable("kamId") String kamId,
                                       @PathVariable("count") int count,
                                       @PathVariable("order") int inc) {
-        return restaurantService.getPerformers(kamId, count, inc);
+        return ResponseEntity.ok(restaurantService.getPerformers(kamId, count, inc));
     }
 
     @GetMapping("/orders/{restId}/{duration}")
-    public List<Order> getAllRestaurantOrders(@PathVariable("restId") String restId,
+    public ResponseEntity<List<Order>> getAllRestaurantOrders(@PathVariable("restId") String restId,
                                               @PathVariable("duration") Duration duration) {
-        return restaurantService.findAllOrders(restId, duration);
+        return ResponseEntity.ok(restaurantService.findAllOrders(restId, duration));
     }
 }

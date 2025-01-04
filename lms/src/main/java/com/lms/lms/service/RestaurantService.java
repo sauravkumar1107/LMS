@@ -26,10 +26,9 @@ public class RestaurantService {
     private final ContactRepository contactRepository;
     private final OrderRepository orderRepository;
 
-    public boolean addRestaurant(AddRestaurantRequest request) {
+    public Restaurant addRestaurant(AddRestaurantRequest request) {
         Restaurant restaurant = RestaurantTransformer.addRestaurantRequestToRestaurant(request);
-        restaurantRepository.save(restaurant);
-        return true;
+        return restaurantRepository.save(restaurant);
     }
 
     public List<Restaurant> getAllRestaurants(String kamId) {
@@ -40,17 +39,11 @@ public class RestaurantService {
         return contactRepository.findByRestId(restId);
     }
 
-    public boolean updateRestaurant(UpdateRestaurantDataRequest request) {
-        try {
-            Restaurant restaurant = restaurantRepository.findById(request.getId())
-                    .orElseThrow(() -> new RuntimeException("Data not found"));
-            RestaurantTransformer.updateRestaurantWithRequest(restaurant, request);
-            restaurantRepository.save(restaurant);
-            return true;
-        } catch (Exception e) {
-            log.error("Encountered error in updateRestaurant", e);
-            return false;
-        }
+    public Restaurant updateRestaurant(UpdateRestaurantDataRequest request) {
+        Restaurant restaurant = restaurantRepository.findById(request.getId())
+                .orElseThrow(() -> new RuntimeException("Data not found"));
+        RestaurantTransformer.updateRestaurantWithRequest(restaurant, request);
+        return restaurantRepository.save(restaurant);
     }
 
     public List<Order> findAllOrders(String restId, Duration duration) {
