@@ -1,8 +1,8 @@
 package com.lms.lms.model;
 
 public enum Status {
-    NEW,
+    ACTIVE,
+    INACTIVE,
     CONTACTED,
-    ORDER_PLACED,
-    ORDER_DELIVERED
+    ORDER_PLACED
 }

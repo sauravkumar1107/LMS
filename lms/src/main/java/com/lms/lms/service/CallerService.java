@@ -1,9 +1,6 @@
 package com.lms.lms.service;
 
-import com.lms.lms.model.Call;
-import com.lms.lms.model.Contact;
-import com.lms.lms.model.Order;
-import com.lms.lms.model.Restaurant;
+import com.lms.lms.model.*;
 import com.lms.lms.repository.CallRepository;
 import com.lms.lms.repository.ContactRepository;
 import com.lms.lms.repository.OrderRepository;
@@ -12,6 +9,7 @@ import com.lms.lms.request.MakeCallRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -34,13 +32,7 @@ public class CallerService {
             Restaurant restaurant = restaurantRepository.findById(request.getRestId())
                     .orElseThrow(() -> new RuntimeException("Data not found"));
 
-            restaurant.setLastCallTime(Instant.now());
-            restaurantRepository.save(restaurant);
-
             Contact contact = contactRepository.findById(request.getContactId())
-                    .orElseThrow(() -> new RuntimeException("Data not found"));
-
-            Order order = orderRepository.findById(request.getOrderId())
                     .orElseThrow(() -> new RuntimeException("Data not found"));
 
             Call call = Call.builder()
@@ -48,10 +40,20 @@ public class CallerService {
                     .restaurant(restaurant)
                     .kamId(request.getKamId())
                     .contact(contact)
-                    .order(order)
                     .callTime(restaurant.getLastCallTime())
                     .build();
 
+            if (StringUtils.hasText(request.getOrderId())) {
+                Order order = orderRepository.findById(request.getOrderId())
+                        .orElseThrow(() -> new RuntimeException("Data not found"));
+                call.setOrder(order);
+                restaurant.setStatus(Status.ORDER_PLACED);
+            } else {
+                restaurant.setStatus(Status.CONTACTED);
+            }
+
+            restaurant.setLastCallTime(Instant.now());
+            restaurantRepository.save(restaurant);
             callRepository.save(call);
             return true;
         } catch (Exception e) {

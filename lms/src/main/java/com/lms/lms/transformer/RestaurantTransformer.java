@@ -19,7 +19,7 @@ public class RestaurantTransformer {
                 .address(request.getAddress())
                 .starsRating(request.getStarsRating())
                 .frequency(CallFrequency.valueOf(request.getFrequency()))
-                .status(Status.NEW)
+                .status(Status.ACTIVE)
                 .build();
     }
 
@@ -42,6 +42,10 @@ public class RestaurantTransformer {
 
         if (StringUtils.hasText(request.getFrequency())) {
             restaurant.setFrequency(CallFrequency.valueOf(request.getFrequency()));
+        }
+
+        if (StringUtils.hasText(request.getStatus())) {
+            restaurant.setStatus(Status.valueOf(request.getStatus()));
         }
     }
 }

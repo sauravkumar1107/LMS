@@ -14,4 +14,5 @@ public class UpdateRestaurantDataRequest {
     private String address;
     private Integer starsRating;
     private String frequency;
+    private String status;
 }
