@@ -6,7 +6,6 @@ import com.lms.lms.model.Restaurant;
 import com.lms.lms.request.AddRestaurantRequest;
 import com.lms.lms.request.Duration;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
-import com.lms.lms.service.OrderService;
 import com.lms.lms.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ import java.util.List;
 @RequestMapping("restaurant")
 public class RestaurantController {
     private final RestaurantService restaurantService;
-    private final OrderService orderService;
 
     @PostMapping("/add")
     public boolean addRestaurant(@RequestBody AddRestaurantRequest request) {
@@ -44,15 +42,15 @@ public class RestaurantController {
     }
 
     @GetMapping("/performance/{kamId}/{count}/{order}")
-    public List<String> getPerformers(@PathVariable("kamId") String kamId,
+    public List<Restaurant> getPerformers(@PathVariable("kamId") String kamId,
                                       @PathVariable("count") int count,
-                                      @PathVariable("order") int order) {
-        return null;
+                                      @PathVariable("order") int inc) {
+        return restaurantService.getPerformers(kamId, count, inc);
     }
 
     @GetMapping("/orders/{restId}/{duration}")
     public List<Order> getAllRestaurantOrders(@PathVariable("restId") String restId,
                                               @PathVariable("duration") Duration duration) {
-        return orderService.findAllOrders(restId, duration);
+        return restaurantService.findAllOrders(restId, duration);
     }
 }

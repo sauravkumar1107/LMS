@@ -1,51 +1,59 @@
 package com.lms.lms.service;
 
 import com.lms.lms.model.Order;
+import com.lms.lms.model.Product;
+import com.lms.lms.model.PurchasedProduct;
 import com.lms.lms.model.Restaurant;
 import com.lms.lms.repository.OrderRepository;
+import com.lms.lms.repository.ProductRepository;
 import com.lms.lms.repository.RestaurantRepository;
-import com.lms.lms.request.Duration;
 import com.lms.lms.request.PlaceOrderRequest;
-import com.lms.lms.transformer.OrderTransformer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
     private final RestaurantRepository restaurantRepository;
+    private final ProductRepository productRepository;
     public boolean placeOrder(PlaceOrderRequest request) {
-        Order order = OrderTransformer.orderRequestToOrder(request);
-        orderRepository.save(order);
+        try {
+            Restaurant restaurant = restaurantRepository.findById(request.getRestId())
+                    .orElseThrow(() -> new RuntimeException("Data not found"));
 
-        Restaurant restaurant = restaurantRepository.findById(request.getRestId())
-                .orElseThrow(() -> new RuntimeException("Data not found"));
-        restaurant.setRecentOrderId(order.getId());
-        restaurantRepository.save(restaurant);
-        return true;
-    }
+            List<PurchasedProduct> purchasedProducts = request.getPurchasedProducts().stream().map(pp -> {
+                Product product = productRepository.findById(pp.getProductId())
+                        .orElseThrow(() -> new RuntimeException("Product not found with ID: " + pp.getProductId()));
 
-    public List<Order> findAllOrders(String restId, Duration duration) {
-        List<Order> orders = orderRepository.findByRestId(restId);
-        int days = switch (duration) {
-            case DAY -> 1;
-            case WEEK -> 7;
-            case MONTH -> 30;
-            case YEAR -> 3665;
-            default -> throw new UnsupportedOperationException("Duration is not supported");
-        };
+                return PurchasedProduct.builder()
+                        .product(product)
+                        .quantity(pp.getQuantity())
+                        .id(UUID.randomUUID().toString())
+                        .build();
+            }).toList();
 
-        orders.removeIf(order -> {
-            if (java.time.Duration.between(order.getOrderDate(), Instant.now()).toDays() <= days) {
-                return false;
-            }
+            Order order = Order.builder()
+                    .kamId(request.getKamId())
+                    .restBuyerId(request.getRestBuyerId())
+                    .restaurant(restaurant)
+                    .totalPrice(request.getTotalPrice())
+                    .orderDate(Instant.now())
+                    .id(UUID.randomUUID().toString())
+                    .purchasedProducts(purchasedProducts)
+                    .build();
+
+            orderRepository.save(order);
             return true;
-        });
-
-        return orders;
+        } catch (Exception e) {
+            log.error("Encountered error in placeOrder", e);
+            return false;
+        }
     }
 }

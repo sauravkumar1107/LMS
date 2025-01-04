@@ -1,9 +1,6 @@
 package com.lms.lms.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,11 +25,14 @@ public class Restaurant {
     private String name;
     private String address;
     private Integer starsRating;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
-    private String recentOrderId;
+    @Enumerated(EnumType.STRING)
     private CallFrequency frequency;
-    private String lastCallId;
     private Instant lastCallTime;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Order> orders;
 
     public Instant nextScheduledCall() {
         return switch (this.frequency) {

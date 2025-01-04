@@ -1,8 +1,6 @@
 package com.lms.lms.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,9 +19,12 @@ public class Order {
     @Id
     private String id;
     private String kamId;
-    private String restId;
     private String restBuyerId;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PurchasedProduct> purchasedProducts;
     private Integer totalPrice;
     private Instant orderDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 }

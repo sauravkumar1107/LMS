@@ -8,7 +8,6 @@ import com.lms.lms.request.AddRestaurantRequest;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
 import org.springframework.util.StringUtils;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class RestaurantTransformer {
