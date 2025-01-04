@@ -1,6 +1,6 @@
 package com.lms.lms.request;
 
-public enum Duration {
+public enum Period {
     DAY,
     WEEK,
     MONTH,

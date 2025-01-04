@@ -7,7 +7,7 @@ import com.lms.lms.repository.ContactRepository;
 import com.lms.lms.repository.OrderRepository;
 import com.lms.lms.repository.RestaurantRepository;
 import com.lms.lms.request.AddRestaurantRequest;
-import com.lms.lms.request.Duration;
+import com.lms.lms.request.Period;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
 import com.lms.lms.transformer.RestaurantTransformer;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +46,8 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public List<Order> findAllOrders(String restId, Duration duration) {
-        int days = switch (duration) {
+    public List<Order> findAllOrders(String restId, Period period) {
+        int days = switch (period) {
             case DAY -> 1;
             case WEEK -> 7;
             case MONTH -> 30;
