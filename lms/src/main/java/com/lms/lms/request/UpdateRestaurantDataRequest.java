@@ -10,7 +10,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class UpdateRestaurantDataRequest {
-    private String id;
     private String kamId;
     private String name;
     private String address;

@@ -46,12 +46,12 @@ public class RestaurantService {
         return contactRepository.findByRestId(restId);
     }
 
-    public Restaurant updateRestaurant(UpdateRestaurantDataRequest request) {
-        Restaurant restaurant = restaurantRepository.findById(request.getId())
+    public Restaurant updateRestaurant(String restaurantId, UpdateRestaurantDataRequest request) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RuntimeException("Data not found"));
         RestaurantTransformer.updateRestaurantWithRequest(restaurant, request);
 
-        List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), request.getId());
+        List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), restaurantId);
         for (Contact contact : contacts) {
             contactRepository.save(contact);
         }
