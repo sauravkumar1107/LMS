@@ -15,7 +15,7 @@ public class OpenAPIConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .servers(Arrays.asList(
-                        new Server().url("https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/")
+                        new Server().url("https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev")
                 ))
                 .info(new Info()
                         .title("Lead Management System API")
