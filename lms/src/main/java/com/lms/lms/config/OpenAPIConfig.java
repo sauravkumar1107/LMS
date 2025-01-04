@@ -15,9 +15,7 @@ public class OpenAPIConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .servers(Arrays.asList(
-                        new Server().url("http://production-url").description("Production"),
-                        new Server().url("http://staging-url").description("Staging"),
-                        new Server().url("http://localhost:8090").description("Local")
+                        new Server().url("https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/")
                 ))
                 .info(new Info()
                         .title("Lead Management System API")
