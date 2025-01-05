@@ -11,9 +11,10 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, String> {
-    @Query("SELECT o FROM Order o WHERE o.restaurant.id = :restaurantId AND o.orderDate >= :startDate")
+    @Query(value = "SELECT o FROM Order o WHERE o.restaurant.id = :restaurantId AND AND o.orderDate BETWEEN :startDate AND :endDate")
     List<Order> findAllByRestaurantIdAndOrderDateAfter(
             @Param("restaurantId") String restaurantId,
-            @Param("startDate") Instant startDate
+            @Param("startDate") Instant startDate,
+            @Param("endDate") Instant endDate
     );
 }
