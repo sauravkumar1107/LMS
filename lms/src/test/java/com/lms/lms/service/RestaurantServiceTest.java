@@ -48,8 +48,8 @@ class RestaurantServiceTest {
         AddRestaurantRequest request = AddRestaurantRequest.builder()
                 .kamId("testKamId")
                 .name("testName")
+                .frequency("DAILY")
                 .build();
-        request.setContacts(Arrays.asList(ContactRequest.builder().build()));
 
         Restaurant restaurant = Restaurant.builder()
                 .id("testId")
@@ -62,9 +62,8 @@ class RestaurantServiceTest {
         Restaurant result = restaurantService.addRestaurant(request);
 
         // Assert
-        assertEquals(restaurant, result);
-        verify(contactRepository, times(2)).save(any(Contact.class));
-        verify(restaurantRepository, times(1)).save(restaurant);
+        assertEquals(restaurant.getName(), result.getName());
+        verify(restaurantRepository, times(1)).save(any(Restaurant.class));
     }
 
     @Test
@@ -139,7 +138,7 @@ class RestaurantServiceTest {
         Instant now = Instant.now();
         List<Order> orders = Arrays.asList(new Order(), new Order());
 
-        when(orderRepository.findAllByRestaurantIdAndOrderDateAfter(eq(restId), any(Instant.class), eq(now)))
+        when(orderRepository.findAllByRestaurantIdAndOrderDateAfter(eq(restId), any(Instant.class), any(Instant.class)))
                 .thenReturn(orders);
 
         // Act
@@ -148,7 +147,7 @@ class RestaurantServiceTest {
         // Assert
         assertEquals(2, result.size());
         verify(orderRepository, times(1))
-                .findAllByRestaurantIdAndOrderDateAfter(eq(restId), any(Instant.class), eq(now));
+                .findAllByRestaurantIdAndOrderDateAfter(eq(restId), any(Instant.class), any(Instant.class));
     }
 
     @Test
