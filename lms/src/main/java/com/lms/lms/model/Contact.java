@@ -1,8 +1,6 @@
 package com.lms.lms.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +16,7 @@ public class Contact {
     @Id
     private String id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private Role role;
     private String phone;
     private String email;
