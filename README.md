@@ -167,7 +167,54 @@ curl -X 'PUT' \
 
 ### Place new order
 ```curl
+curl -X 'POST' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/order' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "restId": "REST001",
+  "restBuyerId": "CONT001",
+  "purchasedProducts": [
+    {
+      "productId": "EQUIP001",
+      "quantity": 2,
+      "unitPrice": 89999
+    }
+  ],
+  "totalPrice": 179998
+}'
+```
+
+### Record new interaction
+```curl
+curl -X 'POST' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/interaction' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "restId": "REST002",
+  "kamId": "KAM001",
+  "contactId": "CONT002"
+}'
+```
+
+### Find all calls scheduled/planned for today for a KAM
+```curl
 curl -X 'GET' \
-  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/restaurant/36c98b77-ae24-4de5-aaa4-895df193bff6/contacts' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/interaction/kam/KAM002' \
+  -H 'accept: */*'
+```
+
+### Get top or worst performing restaurants under a KAM
+```curl
+curl -X 'GET' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/interaction/kam/KAM002' \
+  -H 'accept: */*'
+```
+
+### Get all orders placed by a restaurant in a given period
+```curl
+curl -X 'GET' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/interaction/kam/KAM002' \
   -H 'accept: */*'
 ```

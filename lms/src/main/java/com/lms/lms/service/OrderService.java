@@ -27,16 +27,23 @@ public class OrderService {
         Restaurant restaurant = restaurantRepository.findById(request.getRestId())
                 .orElseThrow(() -> new RuntimeException("Data not found"));
 
+                log.info("before product fetched");
+
+
         List<PurchasedProduct> purchasedProducts = request.getPurchasedProducts().stream().map(pp -> {
             Product product = productRepository.findById(pp.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found with ID: " + pp.getProductId()));
 
+            log.info("product fetched");
             return PurchasedProduct.builder()
                     .product(product)
                     .quantity(pp.getQuantity())
                     .id(UUID.randomUUID().toString())
                     .build();
         }).toList();
+
+        log.info("after product fetched");
+
 
         Order order = Order.builder()
                 .kamId(restaurant.getKamId())

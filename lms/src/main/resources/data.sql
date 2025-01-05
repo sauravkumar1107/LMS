@@ -17,11 +17,11 @@ INSERT INTO products (id, name, description, inventory, unit_price) VALUES
 
 -- Insert Restaurants
 INSERT INTO restaurants (id, kam_id, name, address, stars_rating, status, frequency, last_call_time) VALUES
-('REST001', 'KAM001', 'Golden Dragon', '123 Main St, City Center', 4, 'ACTIVE', 'WEEKLY', '2024-01-01T10:00:00Z'),
-('REST002', 'KAM001', 'Spice Route', '456 Market Ave, Downtown', 5, 'ACTIVE', 'MONTHLY', '2024-01-02T11:30:00Z'),
-('REST003', 'KAM002', 'Blue Ocean', '789 Harbor Rd, Seaside', 3, 'CONTACTED', 'WEEKLY', '2024-01-03T14:15:00Z'),
-('REST004', 'KAM002', 'Green Garden', '321 Park Lane, Uptown', 4, 'ORDER_PLACED', 'DAILY', '2024-01-04T09:45:00Z'),
-('REST005', 'KAM003', 'Royal Feast', '654 Queen St, Downtown', 5, 'ACTIVE', 'MONTHLY', '2024-01-05T16:20:00Z');
+('REST001', 'KAM001', 'Golden Dragon', '123 Main St, City Center', 4, 'ACTIVE', 'WEEKLY', '2025-01-01T10:00:00Z'),
+('REST002', 'KAM001', 'Spice Route', '456 Market Ave, Downtown', 5, 'ACTIVE', 'MONTHLY', '2025-01-02T11:30:00Z'),
+('REST003', 'KAM002', 'Blue Ocean', '789 Harbor Rd, Seaside', 3, 'CONTACTED', 'WEEKLY', '2025-01-03T14:15:00Z'),
+('REST004', 'KAM002', 'Green Garden', '321 Park Lane, Uptown', 4, 'ORDER_PLACED', 'DAILY', '2025-01-04T19:45:00Z'),
+('REST005', 'KAM003', 'Royal Feast', '654 Queen St, Downtown', 5, 'ACTIVE', 'MONTHLY', '2025-01-05T16:20:00Z');
 
 -- Insert Contacts
 INSERT INTO contacts (id, name, role, phone, email, rest_id) VALUES
@@ -33,11 +33,11 @@ INSERT INTO contacts (id, name, role, phone, email, rest_id) VALUES
 
 -- Insert Orders
 INSERT INTO orders (id, kam_id, rest_buyer_id, total_price, order_date, restaurant_id) VALUES
-('ORD001', 'KAM001', 'CONT001', 149985, '2024-01-01T12:00:00Z', 'REST001'),
-('ORD002', 'KAM001', 'CONT002', 89997, '2024-01-02T13:30:00Z', 'REST002'),
-('ORD003', 'KAM002', 'CONT003', 199980, '2024-01-03T15:45:00Z', 'REST003'),
-('ORD004', 'KAM002', 'CONT004', 299970, '2024-01-04T10:15:00Z', 'REST004'),
-('ORD005', 'KAM003', 'CONT005', 449955, '2024-01-05T17:00:00Z', 'REST005');
+('ORD001', 'KAM001', 'CONT001', 149985, '2025-01-01T12:00:00Z', 'REST001'),
+('ORD002', 'KAM001', 'CONT002', 89997, '2025-01-02T13:30:00Z', 'REST002'),
+('ORD003', 'KAM002', 'CONT003', 199980, '2025-01-03T15:45:00Z', 'REST003'),
+('ORD004', 'KAM002', 'CONT004', 299970, '2025-01-04T10:15:00Z', 'REST004'),
+('ORD005', 'KAM003', 'CONT005', 449955, '2025-01-05T17:00:00Z', 'REST005');
 
 -- Insert Purchased Products
 INSERT INTO purchased_products (id, order_id, product_id, quantity) VALUES
@@ -50,8 +50,8 @@ INSERT INTO purchased_products (id, order_id, product_id, quantity) VALUES
 
 -- Insert Calls
 INSERT INTO calls (id, restaurant_id, kam_id, contact_id, order_id, call_time) VALUES
-('CALL001', 'REST001', 'KAM001', 'CONT001', 'ORD001', '2024-01-01T10:00:00Z'),
-('CALL002', 'REST002', 'KAM001', 'CONT002', 'ORD002', '2024-01-02T11:30:00Z'),
-('CALL003', 'REST003', 'KAM002', 'CONT003', 'ORD003', '2024-01-03T14:15:00Z'),
-('CALL004', 'REST004', 'KAM002', 'CONT004', 'ORD004', '2024-01-04T09:45:00Z'),
-('CALL005', 'REST005', 'KAM003', 'CONT005', 'ORD005', '2024-01-05T16:20:00Z');
+('CALL001', 'REST001', 'KAM001', 'CONT001', 'ORD001', '2025-01-01T10:00:00Z'),
+('CALL002', 'REST002', 'KAM001', 'CONT002', 'ORD002', '2025-01-02T11:30:00Z'),
+('CALL003', 'REST003', 'KAM002', 'CONT003', 'ORD003', '2025-01-03T14:15:00Z'),
+('CALL004', 'REST004', 'KAM002', 'CONT004', 'ORD004', '2025-01-04T09:45:00Z'),
+('CALL005', 'REST005', 'KAM003', 'CONT005', 'ORD005', '2025-01-05T16:20:00Z');

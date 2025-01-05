@@ -10,6 +10,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -31,6 +33,7 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private CallFrequency frequency;
     private Instant lastCallTime;
+    @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
 

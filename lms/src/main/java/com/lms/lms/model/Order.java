@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -24,6 +26,7 @@ public class Order {
     private List<PurchasedProduct> purchasedProducts;
     private Integer totalPrice;
     private Instant orderDate;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
