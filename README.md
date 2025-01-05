@@ -154,7 +154,20 @@ curl -X 'GET' \
   -H 'accept: */*'
 ```
 
-### Getting Performance Metrics
+### Update restaurant details, in this example KAM
 ```curl
-curl -X GET http://localhost:8080/api/v1/leads/restaurants/1/performance?days=30
+curl -X 'PUT' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/restaurant/36c98b77-ae24-4de5-aaa4-895df193bff6' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "kamId": "kam456"
+}'
+```
+
+### Place new order
+```curl
+curl -X 'GET' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/restaurant/36c98b77-ae24-4de5-aaa4-895df193bff6/contacts' \
+  -H 'accept: */*'
 ```
