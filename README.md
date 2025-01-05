@@ -28,6 +28,9 @@ cd lms
 ### Configure Database
 The application uses PostgreSQL running in Docker. The database configuration is handled through the docker-compose.yml file.
 
+### Test data
+Test data for all the tables are present in "resources/data.sql". When service boots up, all the tables are dropped and created again with the defined data present in data.sql
+
 ### Build the Application
 ```bash
 mvn clean install
