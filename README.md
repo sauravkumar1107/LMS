@@ -94,7 +94,7 @@ The coverage report will be available at `target/site/jacoco/index.html`
 
 ### Swagger UI
 Access the API documentation through Swagger UI:
-- URL: http://localhost:8080/swagger-ui.html ``Change baseUrl as per the application in thr OpenAPIConfig's servers``
+- URL: https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/swagger-ui.html ``Change baseUrl as per the application in thr OpenAPIConfig's servers``
 
 ### Main API Endpoints
 
@@ -120,7 +120,7 @@ Access the API documentation through Swagger UI:
 ### Creating a New Restaurant Lead
 ```curl
 curl -X 'POST' \
-  'http://localhost:8080/api/v1/restaurant' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/restaurant' \
   -H 'accept: */*' \
   -H 'Content-Type: application/json' \
   -d '{
