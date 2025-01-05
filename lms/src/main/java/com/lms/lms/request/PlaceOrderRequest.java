@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PlaceOrderRequest {
     private String restId;
-    private String kamId;
     private String restBuyerId;
     private List<PurchasedProductRequest> purchasedProducts;
     private Integer totalPrice;

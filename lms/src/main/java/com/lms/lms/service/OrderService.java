@@ -39,7 +39,7 @@ public class OrderService {
         }).toList();
 
         Order order = Order.builder()
-                .kamId(request.getKamId())
+                .kamId(restaurant.getKamId())
                 .restBuyerId(request.getRestBuyerId())
                 .restaurant(restaurant)
                 .totalPrice(request.getTotalPrice())

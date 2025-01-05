@@ -102,9 +102,9 @@ Access the API documentation through Swagger UI:
 - `POST /api/v1/restaurant` - Create new restaurant lead
 - `GET /api/v1/restaurant/kam/{id}` - Fetch all restaurant leads of a KAM 
 - `GET /api/v1/restaurant/{id}/contacts` - Get all contacts of a restaurant
-- `PUT /api/v1/restaurant/{id}` - Update restaurant details
+- `PUT /api/v1/restaurant/{id}` - Update restaurant details (kamId, contacts, name, address, etc.)
 
-#### Contact Management
+#### Order Management
 - `POST /api/v1/order` - Place new order
 
 #### Interaction Tracking
