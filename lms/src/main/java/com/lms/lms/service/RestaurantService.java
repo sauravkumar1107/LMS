@@ -30,7 +30,7 @@ public class RestaurantService {
 
     public Restaurant addRestaurant(AddRestaurantRequest request) {
         Restaurant restaurant = RestaurantTransformer.addRestaurantRequestToRestaurant(request);
-        if (CollectionUtils.isEmpty(request.getContacts())) {
+        if (!CollectionUtils.isEmpty(request.getContacts())) {
             List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), restaurant.getId());
             for (Contact contact : contacts) {
                 contactRepository.save(contact);
@@ -53,7 +53,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new RuntimeException("Data not found"));
         RestaurantTransformer.updateRestaurantWithRequest(restaurant, request);
 
-        if (CollectionUtils.isEmpty(request.getContacts())) {
+        if (!CollectionUtils.isEmpty(request.getContacts())) {
             List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), restaurantId);
             for (Contact contact : contacts) {
                 contactRepository.save(contact);

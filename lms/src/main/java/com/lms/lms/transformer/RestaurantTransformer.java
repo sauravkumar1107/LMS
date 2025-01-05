@@ -25,15 +25,15 @@ public class RestaurantTransformer {
 
     public static void updateRestaurantWithRequest(Restaurant restaurant, UpdateRestaurantDataRequest request) {
         if (StringUtils.hasText(request.getName())) {
-            restaurant.setName(restaurant.getName());
+            restaurant.setName(request.getName());
         }
 
         if (StringUtils.hasText(request.getKamId())) {
-            restaurant.setKamId(restaurant.getKamId());
+            restaurant.setKamId(request.getKamId());
         }
 
         if (StringUtils.hasText(request.getAddress())) {
-            restaurant.setAddress(restaurant.getAddress());
+            restaurant.setAddress(request.getAddress());
         }
 
         if (request.getStarsRating() != null) {
