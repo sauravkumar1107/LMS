@@ -84,8 +84,19 @@ public class RestaurantService {
         return orders;
     }
 
-    public List<Restaurant> getPerformers(String kamId, int count, int inc) {
-        List<Restaurant> restaurants = restaurantRepository.findByKamId(kamId);
-        return restaurants;
+    public List<Restaurant> getPerformers(String kamId, Period period, int inc) {
+        int days = switch (period) {
+            case DAY -> 1;
+            case WEEK -> 7;
+            case MONTH -> 30;
+            case YEAR -> 3665;
+            default -> throw new UnsupportedOperationException("Duration is not supported");
+        };
+
+        if (inc == 1) {
+            return restaurantRepository.findTopPerformingRestaurants(kamId, Instant.now().minus(days, ChronoUnit.DAYS), Instant.now());
+        } else {
+            return restaurantRepository.findWorstPerformingRestaurants(kamId, Instant.now().minus(days, ChronoUnit.DAYS), Instant.now());
+        }
     }
 }

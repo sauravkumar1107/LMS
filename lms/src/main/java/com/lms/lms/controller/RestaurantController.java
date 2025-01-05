@@ -3,6 +3,7 @@ package com.lms.lms.controller;
 import com.lms.lms.model.Contact;
 import com.lms.lms.model.Restaurant;
 import com.lms.lms.request.AddRestaurantRequest;
+import com.lms.lms.request.Period;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
 import com.lms.lms.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -82,10 +83,10 @@ public class RestaurantController {
             responseCode = "200",
             description = "Details fetched"
     )
-    @GetMapping("/performance/kam/{id}/{count}/{order}")
+    @GetMapping("/performance/kam/{id}/{period}/{inc}")
     public ResponseEntity<List<Restaurant>> getPerformers(@PathVariable("id") String kamId,
-                                      @PathVariable("count") int count,
-                                      @PathVariable("order") int inc) {
-        return ResponseEntity.ok(restaurantService.getPerformers(kamId, count, inc));
+                                      @PathVariable("period") Period period,
+                                      @PathVariable("inc") int inc) {
+        return ResponseEntity.ok(restaurantService.getPerformers(kamId, period, inc));
     }
 }
