@@ -208,7 +208,7 @@ curl -X 'GET' \
 ### Get top or worst performing restaurants under a KAM
 ```curl
 curl -X 'GET' \
-  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/interaction/kam/KAM002' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/restaurant/performance/kam/KAM001/WEEK/1' \
   -H 'accept: */*'
 ```
 
