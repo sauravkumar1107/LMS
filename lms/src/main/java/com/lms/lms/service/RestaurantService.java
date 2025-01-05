@@ -7,7 +7,6 @@ import com.lms.lms.repository.ContactRepository;
 import com.lms.lms.repository.OrderRepository;
 import com.lms.lms.repository.RestaurantRepository;
 import com.lms.lms.request.AddRestaurantRequest;
-import com.lms.lms.request.ContactRequest;
 import com.lms.lms.request.Period;
 import com.lms.lms.request.UpdateRestaurantDataRequest;
 import com.lms.lms.transformer.ContactTransformer;
@@ -15,6 +14,7 @@ import com.lms.lms.transformer.RestaurantTransformer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -30,9 +30,11 @@ public class RestaurantService {
 
     public Restaurant addRestaurant(AddRestaurantRequest request) {
         Restaurant restaurant = RestaurantTransformer.addRestaurantRequestToRestaurant(request);
-        List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), restaurant.getId());
-        for (Contact contact : contacts) {
-            contactRepository.save(contact);
+        if (CollectionUtils.isEmpty(request.getContacts())) {
+            List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), restaurant.getId());
+            for (Contact contact : contacts) {
+                contactRepository.save(contact);
+            }
         }
 
         return restaurantRepository.save(restaurant);
@@ -51,9 +53,11 @@ public class RestaurantService {
                 .orElseThrow(() -> new RuntimeException("Data not found"));
         RestaurantTransformer.updateRestaurantWithRequest(restaurant, request);
 
-        List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), restaurantId);
-        for (Contact contact : contacts) {
-            contactRepository.save(contact);
+        if (CollectionUtils.isEmpty(request.getContacts())) {
+            List<Contact> contacts = ContactTransformer.contactsFromRequest(request.getContacts(), restaurantId);
+            for (Contact contact : contacts) {
+                contactRepository.save(contact);
+            }
         }
 
         return restaurantRepository.save(restaurant);

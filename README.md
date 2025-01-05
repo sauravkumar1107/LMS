@@ -94,7 +94,7 @@ The coverage report will be available at `target/site/jacoco/index.html`
 
 ### Swagger UI
 Access the API documentation through Swagger UI:
-- URL: http://localhost:8080/swagger-ui.html ``Change baseUrl as per the application``
+- URL: http://localhost:8080/swagger-ui.html ``Change baseUrl as per the application in thr OpenAPIConfig's servers``
 
 ### Main API Endpoints
 
@@ -119,39 +119,39 @@ Access the API documentation through Swagger UI:
 
 ### Creating a New Restaurant Lead
 ```curl
-curl -X POST http://localhost:8080/api/v1/leads/restaurants \
-  -H "Content-Type: application/json" \
+curl -X 'POST' \
+  'http://localhost:8080/api/v1/restaurant' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
   -d '{
-    "name": "Pizza Palace",
-    "address": "123 Main Street",
-    "city": "Mumbai",
-    "state": "Maharashtra",
-    "timezone": "Asia/Kolkata"
-  }'
+  "kamId": "kam123",
+  "name": "Taj Mahal",
+  "address": "Rohini, Delhi-110023",
+  "starsRating": 0,
+  "frequency": "DAILY",
+  "contacts": [
+    {
+      "name": "Ashok",
+      "role": "MANAGER",
+      "phone": "87874785875",
+      "email": "ashok@gmail.com"
+    }
+  ]
+}'
 ```
 
-### Adding a Contact
+### Fetch all restaurant leads of a KAM
 ```curl
-curl -X POST http://localhost:8080/api/v1/leads/restaurants/1/contacts \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Doe",
-    "role": "OWNER",
-    "phone": "+91-9876543210",
-    "email": "john@pizzapalace.com",
-    "isPrimary": true
-  }'
+curl -X 'GET' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/restaurant/kam/kam123' \
+  -H 'accept: */*'
 ```
 
-### Recording an Interaction
+### Get all contacts of a restaurant
 ```curl
-curl -X POST http://localhost:8080/api/v1/leads/restaurants/1/interactions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "type": "CALL",
-    "contactId": 1,
-    "notes": "Discussed menu expansion plans"
-  }'
+curl -X 'GET' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/restaurant/36c98b77-ae24-4de5-aaa4-895df193bff6/contacts' \
+  -H 'accept: */*'
 ```
 
 ### Getting Performance Metrics
