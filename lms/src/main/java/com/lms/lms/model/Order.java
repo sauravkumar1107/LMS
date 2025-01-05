@@ -22,6 +22,7 @@ public class Order {
     private String id;
     private String kamId;
     private String restBuyerId;
+    @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PurchasedProduct> purchasedProducts;
     private Integer totalPrice;
