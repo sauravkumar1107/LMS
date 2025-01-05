@@ -38,7 +38,8 @@ mvn clean install
 ### Using Docker Compose
 1. Start the application and database:
 ```bash
-docker-compose up -d
+docker-compose -f .devcontainer/docker-compose.yml build
+docker-compose -f .devcontainer/docker-compose.yml up
 ```
 
 2. Check the logs:
