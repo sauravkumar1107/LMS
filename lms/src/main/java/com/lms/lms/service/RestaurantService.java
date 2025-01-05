@@ -72,16 +72,7 @@ public class RestaurantService {
             default -> throw new UnsupportedOperationException("Duration is not supported");
         };
 
-        List<Order> orders = orderRepository.findAllByRestaurantIdAndOrderDateAfter(restId, Instant.now().minus(days, ChronoUnit.DAYS), Instant.now());
-
-//        orders.removeIf(order -> {
-//            if (java.time.Duration.between(order.getOrderDate(), Instant.now()).toDays() <= days) {
-//                return false;
-//            }
-//            return true;
-//        });
-
-        return orders;
+        return orderRepository.findAllByRestaurantIdAndOrderDateAfter(restId, Instant.now().minus(days, ChronoUnit.DAYS), Instant.now());
     }
 
     public List<Restaurant> getPerformers(String kamId, Period period, int inc) {

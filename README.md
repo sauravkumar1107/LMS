@@ -112,7 +112,7 @@ Access the API documentation through Swagger UI:
 - `GET /api/v1/interaction/kam/{id}` - Find all calls scheduled/planned for today for a KAM
 
 #### Performance Metrics
-- `GET /api/v1/restaurant/performance/kam/{id}/{count}/{order}` - Get top or worst performing restaurants under a KAM
+- `GET /api/v1/restaurant/performance/kam/{id}/{period}/{inc}` - Get top or worst performing restaurants under a KAM
 - `GET /api/v1/order/restaurant/{id}/{period}` - Get all orders placed by a restaurant in a given period
 
 ## 7. Sample Usage Examples
@@ -215,6 +215,6 @@ curl -X 'GET' \
 ### Get all orders placed by a restaurant in a given period
 ```curl
 curl -X 'GET' \
-  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/interaction/kam/KAM002' \
+  'https://expert-rotary-phone-9jj46gwvww5f74xp-8080.app.github.dev/api/v1/order/restaurant/REST001/WEEK' \
   -H 'accept: */*'
 ```
