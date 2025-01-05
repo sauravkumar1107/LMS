@@ -45,11 +45,17 @@ class RestaurantServiceTest {
     @Test
     void testAddRestaurant_Success() {
         // Arrange
-        AddRestaurantRequest request = AddRestaurantRequest.builder().build();
+        AddRestaurantRequest request = AddRestaurantRequest.builder()
+                .kamId("testKamId")
+                .name("testName")
+                .build();
         request.setContacts(Arrays.asList(ContactRequest.builder().build()));
 
-        Restaurant restaurant = new Restaurant();
-        when(RestaurantTransformer.addRestaurantRequestToRestaurant(request)).thenReturn(restaurant);
+        Restaurant restaurant = Restaurant.builder()
+                .id("testId")
+                .kamId("testKamId")
+                .name("testName")
+                .build();
         when(restaurantRepository.save(any(Restaurant.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
